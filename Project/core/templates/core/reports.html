@@ -1,0 +1,124 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Reports - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">System Reports</h2>
+
+    <div class="row g-4">
+        <!-- Inventory Overview -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="card-title mb-0">Inventory Overview</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <h3 class="mb-1">{{ total_items }}</h3>
+                                <small class="text-muted">Total Items</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <h3 class="mb-1">{{ available_items }}</h3>
+                                <small class="text-muted">Available Items</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress mb-3">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: {% widthratio available_items total_items 100 %}%">
+                            {{ available_items }} Available
+                        </div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: {% widthratio maintenance_items total_items 100 %}%">
+                            {{ maintenance_items }} In Maintenance
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reservations Status -->
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="card-title mb-0">Reservations Status</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <h3 class="mb-1">{{ active_reservations }}</h3>
+                                <small class="text-muted">Active Reservations</small>
+                            </div>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <div class="border rounded p-3 text-center">
+                                <h3 class="mb-1">{{ pending_returns }}</h3>
+                                <small class="text-muted">Pending Returns</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% if active_reservations > 0 %}
+                    <div class="alert alert-info mb-0">
+                        <i class="fas fa-info-circle"></i>
+                        You have {{ pending_returns }} items due for return today.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Equipment by Category -->
+        <div class="card mt-4">
+            <div class="card-header bg-dark text-white">
+                <h5 class="card-title mb-0">Equipment by Category</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Total Items</th>
+                                <th>Available</th>
+                                <th>In Use</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in category_stats %}
+                            <tr>
+                                <td>{{ category.name }}</td>
+                                <td>{{ category.total_items }}</td>
+                                <td>
+                                    <span class="badge bg-success">{{ category.available }}</span>
+                                </td>
+                                <td>{{ category.in_use }}</td>
+                                <td>
+                                    {% if category.status == "All available" %}
+                                        <span class="badge bg-success">{{ category.status }}</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">{{ category.status }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center">No categories found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %} 

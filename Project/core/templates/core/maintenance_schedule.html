@@ -1,0 +1,169 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Maintenance Schedule - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Maintenance Schedule</h2>
+
+    {% if messages %}
+    <div class="messages mb-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if is_manager %}
+    <!-- Available Items for Maintenance -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4 class="mb-0">Schedule New Maintenance</h4>
+        </div>
+        <div class="card-body">
+            {% if available_items %}
+            <div class="row">
+                {% for item in available_items %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <p class="card-text">{{ item.description|truncatewords:20 }}</p>
+                            <a href="{% url 'schedule_maintenance_item' item.id %}" class="btn btn-primary">Schedule Maintenance</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-muted">No items available for maintenance.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Analytics Section for Managers -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Maintenance</h5>
+                    <h2 class="card-text">{{ analytics.total_records }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Pending</h5>
+                    <h2 class="card-text">{{ analytics.pending_count }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">In Progress</h5>
+                    <h2 class="card-text">{{ analytics.in_progress_count }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Completed</h5>
+                    <h2 class="card-text">{{ analytics.completed_count }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Completion Rate</h5>
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" 
+                     style="width: {{ analytics.completion_rate }}%;" 
+                     aria-valuenow="{{ analytics.completion_rate }}" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100">
+                    {{ analytics.completion_rate|floatformat:1 }}%
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Maintenance Schedule Table -->
+    <div class="card">
+        <div class="card-header">
+            <h4 class="mb-0">Maintenance Records</h4>
+        </div>
+        <div class="card-body">
+            {% if maintenance_records %}
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Staff</th>
+                            {% if is_manager %}
+                            <th>Actions</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in maintenance_records %}
+                        <tr>
+                            <td>{{ record.item.name }}</td>
+                            <td>{{ record.maintenance_date|date:"Y-m-d H:i" }}</td>
+                            <td>{{ record.description }}</td>
+                            <td>
+                                <span class="badge {% if record.status == 'COMPLETED' %}bg-success{% elif record.status == 'IN_PROGRESS' %}bg-info{% elif record.status == 'SCHEDULED' %}bg-warning{% else %}bg-danger{% endif %}">
+                                    {{ record.status }}
+                                </span>
+                            </td>
+                            <td>{{ record.staff.username }}</td>
+                            {% if is_manager %}
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="{% url 'schedule_maintenance_item' record.item.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    {% if record.status != 'CANCELLED' and record.status != 'COMPLETED' %}
+                                    <form method="POST" class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="cancel">
+                                        <input type="hidden" name="maintenance_id" value="{{ record.id }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to cancel this maintenance?')">
+                                            Cancel Maintenance
+                                        </button>
+                                    </form>
+                                    {% endif %}
+                                    <form method="POST" action="{% url 'maintenance_schedule' %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="action" value="update_status">
+                                        <input type="hidden" name="maintenance_id" value="{{ record.id }}">
+                                        <select class="form-select form-select-sm d-inline-block w-auto" name="status" onchange="this.form.submit()">
+                                            <option value="SCHEDULED" {% if record.status == 'SCHEDULED' %}selected{% endif %}>Scheduled</option>
+                                            <option value="IN_PROGRESS" {% if record.status == 'IN_PROGRESS' %}selected{% endif %}>In Progress</option>
+                                            <option value="COMPLETED" {% if record.status == 'COMPLETED' %}selected{% endif %}>Completed</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted">No maintenance records found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} 

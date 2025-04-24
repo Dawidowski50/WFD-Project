@@ -1,0 +1,122 @@
+[
+    {
+        "model": "inventory.item",
+        "pk": 1,
+        "fields": {
+            "name": "Canon EOS R5",
+            "description": "Professional full-frame mirrorless camera with 8K video capability",
+            "category": 1,
+            "daily_rate": "199.99",
+            "condition": "Excellent",
+            "is_available": true,
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z",
+            "last_maintained": "2024-04-20T00:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.item",
+        "pk": 2,
+        "fields": {
+            "name": "Sony A7III",
+            "description": "Full-frame mirrorless camera with excellent low-light performance",
+            "category": 1,
+            "daily_rate": "149.99",
+            "condition": "Good",
+            "is_available": true,
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z",
+            "last_maintained": "2024-04-21T00:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.item",
+        "pk": 3,
+        "fields": {
+            "name": "JBL EON715",
+            "description": "15-inch powered PA speaker with Bluetooth control",
+            "category": 2,
+            "daily_rate": "89.99",
+            "condition": "Excellent",
+            "is_available": true,
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z",
+            "last_maintained": "2024-04-22T00:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.item",
+        "pk": 4,
+        "fields": {
+            "name": "Shure SM58",
+            "description": "Industry-standard vocal microphone",
+            "category": 2,
+            "daily_rate": "29.99",
+            "condition": "Good",
+            "is_available": true,
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z",
+            "last_maintained": "2024-04-19T00:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.item",
+        "pk": 5,
+        "fields": {
+            "name": "Hilti TE 70",
+            "description": "Professional rotary hammer drill",
+            "category": 3,
+            "daily_rate": "79.99",
+            "condition": "Good",
+            "is_available": true,
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z",
+            "last_maintained": "2024-04-18T00:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.item",
+        "pk": 6,
+        "fields": {
+            "name": "DeWalt Table Saw",
+            "description": "10-inch jobsite table saw with rolling stand",
+            "category": 3,
+            "daily_rate": "89.99",
+            "condition": "Excellent",
+            "is_available": true,
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z",
+            "last_maintained": "2024-04-17T00:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.item",
+        "pk": 7,
+        "fields": {
+            "name": "Folding Table Set",
+            "description": "6ft rectangular folding table with 8 chairs",
+            "category": 4,
+            "daily_rate": "49.99",
+            "condition": "Good",
+            "is_available": true,
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z",
+            "last_maintained": "2024-04-16T00:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.item",
+        "pk": 8,
+        "fields": {
+            "name": "Party Tent",
+            "description": "20x20 commercial grade party tent with sidewalls",
+            "category": 4,
+            "daily_rate": "199.99",
+            "condition": "Excellent",
+            "is_available": true,
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z",
+            "last_maintained": "2024-04-15T00:00:00Z"
+        }
+    }
+] 

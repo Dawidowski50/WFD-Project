@@ -1,0 +1,128 @@
+{% extends 'core/base.html' %}
+
+{% block title %}My Reservations - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">My Reservations</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if reservations %}
+        <!-- Active Reservations -->
+        <h3 class="mb-3">Active Reservations</h3>
+        <div class="row mb-5">
+            {% for reservation in reservations %}
+                {% if reservation.status != 'cancelled' %}
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Reservation #{{ reservation.id }}</h5>
+                            <span class="badge {% if reservation.status == 'pending' %}bg-warning
+                                       {% elif reservation.status == 'confirmed' %}bg-success
+                                       {% else %}bg-secondary{% endif %}">
+                                {{ reservation.status|title }}
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            {% for item in reservation.items.all %}
+                                <div class="mb-3">
+                                    <h6>{{ item.item.name }}</h6>
+                                    <p class="text-muted mb-1">{{ item.item.description }}</p>
+                                    <div class="d-flex justify-content-between">
+                                        <span>€{{ item.price_per_day }}/day × {{ item.quantity }}</span>
+                                        <span class="fw-bold">€{{ item.subtotal }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <hr>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <small class="text-muted d-block">Start Date:</small>
+                                    <strong>{{ reservation.start_date|date:"M d, Y H:i" }}</strong>
+                                </div>
+                                <div class="col-md-6">
+                                    <small class="text-muted d-block">End Date:</small>
+                                    <strong>{{ reservation.end_date|date:"M d, Y H:i" }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="text-muted">Total Cost:</span>
+                                    <span class="h5 mb-0 ms-2">€{{ reservation.total_cost }}</span>
+                                </div>
+                                <form method="POST" action="{% url 'cancel_reservation' reservation.id %}" 
+                                      onsubmit="return confirm('Are you sure you want to cancel this reservation?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Cancel Reservation</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Cancelled Reservations -->
+        <h3 class="mb-3">Cancelled Reservations</h3>
+        <div class="row">
+            {% for reservation in reservations %}
+                {% if reservation.status == 'cancelled' %}
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm bg-light">
+                        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Reservation #{{ reservation.id }}</h5>
+                            <span class="badge bg-danger">Cancelled</span>
+                        </div>
+                        <div class="card-body">
+                            {% for item in reservation.items.all %}
+                                <div class="mb-3">
+                                    <h6>{{ item.item.name }}</h6>
+                                    <p class="text-muted mb-1">{{ item.item.description }}</p>
+                                    <div class="d-flex justify-content-between">
+                                        <span>€{{ item.price_per_day }}/day × {{ item.quantity }}</span>
+                                        <span class="fw-bold">€{{ item.subtotal }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <hr>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <small class="text-muted d-block">Start Date:</small>
+                                    <strong>{{ reservation.start_date|date:"M d, Y H:i" }}</strong>
+                                </div>
+                                <div class="col-md-6">
+                                    <small class="text-muted d-block">End Date:</small>
+                                    <strong>{{ reservation.end_date|date:"M d, Y H:i" }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="text-muted">Total Cost:</span>
+                                    <span class="h5 mb-0 ms-2">€{{ reservation.total_cost }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <p class="mb-0">You don't have any reservations yet. <a href="{% url 'catalog' %}">Browse our equipment</a> to make your first reservation!</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

@@ -1,0 +1,75 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Manage Returns - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Process Equipment Returns</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if active_returns %}
+        <div class="row">
+            {% for reservation in active_returns %}
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Return #{{ reservation.id }}</h5>
+                            <span class="badge bg-dark">Due: {{ reservation.end_date|date:"M d, Y H:i" }}</span>
+                        </div>
+                        <div class="card-body">
+                            <h6>Customer: {{ reservation.user.username }}</h6>
+                            {% for item in reservation.items.all %}
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h6 class="mb-1">{{ item.item.name }}</h6>
+                                            <p class="text-muted mb-0">{{ item.item.description }}</p>
+                                        </div>
+                                        <span class="badge {% if item.item.condition == 'Excellent' %}bg-success{% else %}bg-warning{% endif %}">
+                                            {{ item.item.condition }}
+                                        </span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <hr>
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <small class="text-muted d-block">Rental Start:</small>
+                                    <strong>{{ reservation.start_date|date:"M d, Y H:i" }}</strong>
+                                </div>
+                                <div class="col-md-6">
+                                    <small class="text-muted d-block">Total Cost:</small>
+                                    <strong>€{{ reservation.total_cost }}</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <form method="POST" action="{% url 'process_return' reservation.id %}" class="d-flex justify-content-between align-items-center">
+                                {% csrf_token %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status" value="completed" id="completed{{ reservation.id }}" required>
+                                    <label class="form-check-label" for="completed{{ reservation.id }}">
+                                        Equipment Returned
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-success">Process Return</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <p class="mb-0">No pending returns to process.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %} 

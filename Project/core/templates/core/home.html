@@ -1,0 +1,89 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section bg-dark text-white">
+    <div class="container">
+        <h1 class="display-3 mb-4">Equipment Rental Made Easy</h1>
+        <p class="lead mb-4">Professional equipment for construction, photography, audio, and events.</p>
+        <a href="{% url 'catalog' %}" class="btn btn-primary btn-lg">Browse Equipment</a>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container mt-5">
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">Quality Equipment</h3>
+                    <p class="card-text">Access to professional-grade equipment maintained to the highest standards.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">Flexible Rentals</h3>
+                    <p class="card-text">Daily, weekly, and monthly rental options to suit your project timeline.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h3 class="card-title">Expert Support</h3>
+                    <p class="card-text">Technical support and guidance from our experienced team.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories Section -->
+    <div class="mt-5">
+        <h2 class="text-center mb-4">Equipment Categories</h2>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title h4">Audio Equipment</h3>
+                        <p class="card-text">Professional sound systems and recording equipment.</p>
+                        <a href="{% url 'catalog' %}?category=1" class="btn btn-outline-primary">View Audio</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title h4">Construction Tools</h3>
+                        <p class="card-text">Heavy-duty tools and construction equipment.</p>
+                        <a href="{% url 'catalog' %}?category=2" class="btn btn-outline-primary">View Tools</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title h4">Event Equipment</h3>
+                        <p class="card-text">Tables, chairs, and event staging equipment.</p>
+                        <a href="{% url 'catalog' %}?category=3" class="btn btn-outline-primary">View Events</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title h4">Photography</h3>
+                        <p class="card-text">Cameras, lenses, and lighting equipment.</p>
+                        <a href="{% url 'catalog' %}?category=4" class="btn btn-outline-primary">View Photography</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %} 

@@ -1,0 +1,46 @@
+[
+    {
+        "model": "core.userprofile",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "role": "admin",
+            "phone": "",
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.userprofile",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "role": "customer",
+            "phone": "",
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.userprofile",
+        "pk": 3,
+        "fields": {
+            "user": 3,
+            "role": "staff",
+            "phone": "",
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z"
+        }
+    },
+    {
+        "model": "core.userprofile",
+        "pk": 4,
+        "fields": {
+            "user": 4,
+            "role": "manager",
+            "phone": "",
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z"
+        }
+    }
+] 

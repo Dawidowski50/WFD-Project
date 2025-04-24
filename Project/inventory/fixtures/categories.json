@@ -1,0 +1,42 @@
+[
+    {
+        "model": "inventory.category",
+        "pk": 1,
+        "fields": {
+            "name": "Photography",
+            "description": "Professional cameras and photography equipment",
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.category",
+        "pk": 2,
+        "fields": {
+            "name": "Audio Equipment",
+            "description": "Professional sound systems and recording equipment",
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.category",
+        "pk": 3,
+        "fields": {
+            "name": "Construction Tools",
+            "description": "Professional construction and power tools",
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z"
+        }
+    },
+    {
+        "model": "inventory.category",
+        "pk": 4,
+        "fields": {
+            "name": "Event Equipment",
+            "description": "Tables, chairs, and event setup equipment",
+            "created_at": "2024-04-23T00:00:00Z",
+            "updated_at": "2024-04-23T00:00:00Z"
+        }
+    }
+] 
